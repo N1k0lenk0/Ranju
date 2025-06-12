@@ -1,0 +1,14 @@
+C:\Users\Hlib\source\repos\Renju\Renju\bin\Debug\net8.0\Renju.exe
+C:\Users\Hlib\source\repos\Renju\Renju\bin\Debug\net8.0\Renju.deps.json
+C:\Users\Hlib\source\repos\Renju\Renju\bin\Debug\net8.0\Renju.runtimeconfig.json
+C:\Users\Hlib\source\repos\Renju\Renju\bin\Debug\net8.0\Renju.dll
+C:\Users\Hlib\source\repos\Renju\Renju\bin\Debug\net8.0\Renju.pdb
+C:\Users\Hlib\source\repos\Renju\Renju\obj\Debug\net8.0\Renju.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Hlib\source\repos\Renju\Renju\obj\Debug\net8.0\Renju.AssemblyInfoInputs.cache
+C:\Users\Hlib\source\repos\Renju\Renju\obj\Debug\net8.0\Renju.AssemblyInfo.cs
+C:\Users\Hlib\source\repos\Renju\Renju\obj\Debug\net8.0\Renju.csproj.CoreCompileInputs.cache
+C:\Users\Hlib\source\repos\Renju\Renju\obj\Debug\net8.0\Renju.dll
+C:\Users\Hlib\source\repos\Renju\Renju\obj\Debug\net8.0\refint\Renju.dll
+C:\Users\Hlib\source\repos\Renju\Renju\obj\Debug\net8.0\Renju.pdb
+C:\Users\Hlib\source\repos\Renju\Renju\obj\Debug\net8.0\Renju.genruntimeconfig.cache
+C:\Users\Hlib\source\repos\Renju\Renju\obj\Debug\net8.0\ref\Renju.dll
