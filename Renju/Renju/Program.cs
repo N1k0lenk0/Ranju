@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace RenjuAnalyzer
 {
@@ -18,6 +19,23 @@ namespace RenjuAnalyzer
 
             File.WriteAllText("output.txt", "");
 
+            if (testCount < 1 || testCount > 11)
+            {
+                using StreamWriter errorWriter = new StreamWriter("output.txt", append: true);
+                errorWriter.WriteLine("Error: Invalid number of test cases - out of bounds.");
+                return; 
+            }
+
+            int requiredLines = Size * testCount + 1; 
+
+            if (allLines.Length < requiredLines)
+            {
+                using StreamWriter errorWriter = new StreamWriter("output.txt", append: true);
+                errorWriter.WriteLine("Error: Invalid number of test cases - there are 1 or more extra rows");
+                return;
+            }
+
+
             using StreamWriter writer = new StreamWriter("output.txt");
             //  StreamWriter writer = new StreamWriter("output.txt");
             // з using автоматично закриє файл навіть при помилках
@@ -25,7 +43,7 @@ namespace RenjuAnalyzer
             for (int t = 0; t < testCount; t++)
             {
                 int[,] board = ParseBoard(allLines, index);
-                // цикл зчитування поля прямо в Main
+                // цикл зчитування поля винесено з Main
                 // розділення відповідальності
 
                 index += Size;
@@ -35,12 +53,17 @@ namespace RenjuAnalyzer
                 // CheckWinner винесено для читабельності
 
                 writer.WriteLine(result.Item1);
+
                 if (result.Item1 != 0 && result.Item2 is { } point)
                 {
-                    // if (result.Item1 != 0 && result.Item2 != null) { var point = result.Item2.Value; ... }
-                    // уникнення повторного доступу до result.Item2.Value
                     writer.WriteLine($"{point.row} {point.col}");
                 }
+                // if (result.Item1 != 0 && result.Item2 != null)
+                //{
+                //    var point = result.Item2.Value;
+                //    writer.WriteLine(point.row + " " + point.col);
+                //}
+                // уникнення повторного доступу до result.Item2.Value
             }
         }
 
@@ -50,16 +73,24 @@ namespace RenjuAnalyzer
 
             for (int row = 0; row < Size; row++)
             {
+
+
                 int[] nums = lines[startIndex + row]
                     .Split(' ', StringSplitOptions.RemoveEmptyEntries)
                     .Select(int.Parse)
                     .ToArray();
 
-               
-                // string line = allLines[index];
-                // string[] parts = line.Split(...);
-                // int[] nums = parts.Select(...).ToArray();
-                // line і parts були зайві — змінні використовувались лише раз
+                
+                if (nums.Length != Size)
+                {
+                    throw new Exception("Invalid row length.");
+                }
+                //string line = allLines[index];
+
+                //string[] parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                //int[] nums = parts.Select(int.Parse).ToArray();
+
+                // line і parts були зайві — змінні використовувались лише раз. 
 
                 for (int col = 0; col < Size; col++)
                 {
@@ -111,7 +142,7 @@ namespace RenjuAnalyzer
 
                             bool hasBefore = IsSameColor(beforeX, beforeY, board, color);
                             bool hasAfter = IsSameColor(afterX, afterY, board, color);
-
+                                
                             // вкладені if() для before/after
                             // спрощено в одну перевірку уникнення дублювання та вкладеності
 
