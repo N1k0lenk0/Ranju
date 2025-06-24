@@ -8,8 +8,8 @@ namespace RenjuAnalyzer
     class Program
     {
         const int Size = 19;
-        // static int Size = 19; const тільки читається, отже безпечніше
-       
+        const int winAmount = 5;
+
 
         static void Main()
         {
@@ -23,10 +23,10 @@ namespace RenjuAnalyzer
             {
                 using StreamWriter errorWriter = new StreamWriter("output.txt", append: true);
                 errorWriter.WriteLine("Error: Invalid number of test cases - out of bounds.");
-                return; 
+                return;
             }
 
-            int requiredLines = Size * testCount + 1; 
+            int requiredLines = Size * testCount + 1;
 
             if (allLines.Length < requiredLines)
             {
@@ -37,20 +37,16 @@ namespace RenjuAnalyzer
 
 
             using StreamWriter writer = new StreamWriter("output.txt");
-            //  StreamWriter writer = new StreamWriter("output.txt");
-            // з using автоматично закриє файл навіть при помилках
+
 
             for (int t = 0; t < testCount; t++)
             {
                 int[,] board = ParseBoard(allLines, index);
-                // цикл зчитування поля винесено з Main
-                // розділення відповідальності
 
                 index += Size;
 
                 var result = CheckWinner(board);
-                // було теж у Main
-                // CheckWinner винесено для читабельності
+
 
                 writer.WriteLine(result.Item1);
 
@@ -58,12 +54,7 @@ namespace RenjuAnalyzer
                 {
                     writer.WriteLine($"{point.row} {point.col}");
                 }
-                // if (result.Item1 != 0 && result.Item2 != null)
-                //{
-                //    var point = result.Item2.Value;
-                //    writer.WriteLine(point.row + " " + point.col);
-                //}
-                // уникнення повторного доступу до result.Item2.Value
+
             }
         }
 
@@ -80,17 +71,12 @@ namespace RenjuAnalyzer
                     .Select(int.Parse)
                     .ToArray();
 
-                
+
                 if (nums.Length != Size)
                 {
                     throw new Exception("Invalid row length.");
                 }
-                //string line = allLines[index];
 
-                //string[] parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                //int[] nums = parts.Select(int.Parse).ToArray();
-
-                // line і parts були зайві — змінні використовувались лише раз. 
 
                 for (int col = 0; col < Size; col++)
                 {
@@ -126,14 +112,12 @@ namespace RenjuAnalyzer
                         {
                             x += dx;
                             y += dy;
-
-                            if (x < 0 || x >= Size || y < 0 || y >= Size || board[x, y] != color)
+                            if (!IsSameColor(x, y, board, color))
                                 break;
-
                             count++;
                         }
 
-                        if (count == 5)
+                        if (count == winAmount)
                         {
                             int beforeX = i - dx;
                             int beforeY = j - dy;
@@ -141,19 +125,11 @@ namespace RenjuAnalyzer
                             int afterY = j + dy * 5;
 
                             bool hasBefore = IsSameColor(beforeX, beforeY, board, color);
-                            bool hasAfter = IsSameColor(afterX, afterY, board, color);
-                                
-                            // вкладені if() для before/after
-                            // спрощено в одну перевірку уникнення дублювання та вкладеності
 
-                            if (!hasBefore && !hasAfter)
+                            if (!hasBefore)
                             {
                                 int resRow = dx == -1 && dy == 1 ? i - 4 + 1 : i + 1;
                                 int resCol = dx == -1 && dy == 1 ? j + 4 + 1 : j + 1;
-
-                                // була окрема гілка для діагоналі півд+зах->півн+сх
-                                // зроблено умовне присвоєння одразу
-                                
 
                                 return (color, (resRow, resCol));
                             }
@@ -168,9 +144,6 @@ namespace RenjuAnalyzer
         static bool IsSameColor(int x, int y, int[,] board, int color)
         {
             return x >= 0 && x < Size && y >= 0 && y < Size && board[x, y] == color;
-
-            // створено новий метод для перевірки 
-            // використовувалась двічі в CheckWinner, тому винесено з Main
         }
     }
 }
